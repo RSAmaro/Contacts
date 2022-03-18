@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import TableComponent from './components/Table';
 import { Contact } from './interfaces/Contact';
-import { Api } from './services/Axios';
+import { Api } from './routes/Axios';
 
 
 function App() {
@@ -58,33 +58,29 @@ function App() {
     setPage(0);
   };
 
-  // const handleSearch = (event: any, value: string) => {
-  //   console.log(value);
-  // }
+  const handleSearch = (event: any, value: string) => {
+    console.log(value);
+  }
 
-  // const handleSort = (event: any, value: string) => {
-  //   if (sort === "") { return setSort(value); }
-  //   if (sort === value) { return setSort(value + "_desc"); }
-  //   if (sort === value.concat("_desc")) { return setSort(""); }
-  //   return setSort(value);
-  // }
-
-  const headerHandleClick = async (value: any) => {
+  const handleSort = (event: any, value: string) => {
     if (sort === "") { return setSort(value); }
     if (sort === value) { return setSort(value + "_desc"); }
     if (sort === value.concat("_desc")) { return setSort(""); }
     return setSort(value);
+  }
+
+  const headerHandleClick = async (value: string) => {
+    console.log(value);
 }
 
   return (
     <div className="App">
       <Container className="App">
-        
-         <TableContainer>
-          <TableComponent columns={columns} data={rowData} sorting={sort} OnClickSort={headerHandleClick}></TableComponent>
-        </TableContainer> 
-
-        {/* <TableContainer component={Paper} sx={{ maxHeight: 635 }}>
+        {/* <TableContainer>
+          <TableComponent columns={columns} data={rowData} OnClickHeader={headerHandleClick}></TableComponent>
+        </TableContainer> */}
+        <br /><br />
+        <TableContainer component={Paper} sx={{ maxHeight: 635 }}>
           <Table sx={{ minWidth: 550 }} size="medium" aria-label="a dense table" stickyHeader >
             <TableHead>
               <TableRow>
@@ -92,7 +88,7 @@ function App() {
                   columns.map((col) => (
 
                     <TableCell key={col.value}>
-                      <b style={{ userSelect: 'none' }} onClick={(e) => handleSort(e, col.value)}>{sort === col.value ? <ArrowDropUpIcon /> : null}{sort === (col.value + "_desc") ? <ArrowDropDownIcon /> : null} {col.label}</b>
+                      <b style={{ userSelect: 'none' }} onClick={(e) => handleSort(e, col.value)}>{col.label}{sort === col.value ? <ArrowDropUpIcon /> : null}{sort === (col.value + "_desc") ? <ArrowDropDownIcon /> : null}</b>
                       <Paper sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%' }} >
                         <InputBase sx={{ ml: 1, flex: 1 }} placeholder={"Filtrar por " + col.label} />
                         <IconButton sx={{ p: '10px' }} aria-label="search" onClick={(e) => handleSearch(e, col.value)}>
@@ -119,7 +115,7 @@ function App() {
               }
             </TableBody>
           </Table>
-        </TableContainer> */}
+        </TableContainer>
 
         <TablePagination
           component="div"
