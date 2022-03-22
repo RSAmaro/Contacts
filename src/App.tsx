@@ -1,7 +1,5 @@
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { Container, IconButton, InputBase, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+
+import { CircularProgress, Container, TableContainer, TablePagination } from '@mui/material';
 import { useEffect, useState } from 'react';
 import './App.css';
 import TableComponent from './components/Table';
@@ -12,28 +10,15 @@ import { Api } from './services/Axios';
 function App() {
   const db = new Api();
 
+  const [rowData, setRowData] = useState<Contact[]>([]);
+
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(5);
+
   const [sort, setSort] = useState("");
 
-  const [rowData, setRowData] = useState<Contact[]>([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  const columns = [
-    {
-      label: 'Id',
-      value: 'id',
-    },
-    {
-      label: 'Nome',
-      value: 'name',
-    },
-    {
-      label: 'Contato',
-      value: 'phone',
-    }
-  ];
 
   async function getData() {
     setLoading(true);
@@ -62,65 +47,23 @@ function App() {
   //   console.log(value);
   // }
 
-  // const handleSort = (event: any, value: string) => {
-  //   if (sort === "") { return setSort(value); }
-  //   if (sort === value) { return setSort(value + "_desc"); }
-  //   if (sort === value.concat("_desc")) { return setSort(""); }
-  //   return setSort(value);
-  // }
-
   const headerHandleClick = async (value: any) => {
     if (sort === "") { return setSort(value); }
     if (sort === value) { return setSort(value + "_desc"); }
     if (sort === value.concat("_desc")) { return setSort(""); }
     return setSort(value);
-}
+  }
 
   return (
     <div className="App">
       <Container className="App">
-        
-         <TableContainer>
-          <TableComponent columns={columns} data={rowData} sorting={sort} OnClickSort={headerHandleClick}></TableComponent>
-        </TableContainer> 
 
-        {/* <TableContainer component={Paper} sx={{ maxHeight: 635 }}>
-          <Table sx={{ minWidth: 550 }} size="medium" aria-label="a dense table" stickyHeader >
-            <TableHead>
-              <TableRow>
-                {
-                  columns.map((col) => (
-
-                    <TableCell key={col.value}>
-                      <b style={{ userSelect: 'none' }} onClick={(e) => handleSort(e, col.value)}>{sort === col.value ? <ArrowDropUpIcon /> : null}{sort === (col.value + "_desc") ? <ArrowDropDownIcon /> : null} {col.label}</b>
-                      <Paper sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%' }} >
-                        <InputBase sx={{ ml: 1, flex: 1 }} placeholder={"Filtrar por " + col.label} />
-                        <IconButton sx={{ p: '10px' }} aria-label="search" onClick={(e) => handleSearch(e, col.value)}>
-                          <FilterAltIcon />
-                        </IconButton>
-                      </Paper>
-                    </TableCell>
-
-                  ))
-                }
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {
-                rowData.length ? rowData.map((row) => (
-
-                  <TableRow key={row.id}>
-                    <TableCell component="th" scope="row">{loading ? <Skeleton /> : row.id}</TableCell>
-                    <TableCell align="left">{loading ? <Skeleton /> : row.name}</TableCell>
-                    <TableCell align="left">{loading ? <Skeleton /> : row.phone}</TableCell>
-                  </TableRow>
-
-                )) : null
-              }
-            </TableBody>
-          </Table>
-        </TableContainer> */}
-
+      {loading ? <CircularProgress/> : 
+        <TableContainer>
+          <TableComponent data={rowData} sort={sort} onClickSort={headerHandleClick}></TableComponent>
+        </TableContainer>
+      }
+      
         <TablePagination
           component="div"
           count={count}

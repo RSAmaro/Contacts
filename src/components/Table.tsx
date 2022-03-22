@@ -1,61 +1,65 @@
-import { useState } from 'react';
-import { IconButton, InputBase, Paper, Skeleton, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Button, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export type TableComponentProps = {
-
-    columns: any[];
-    data: any[] | null;
-    sorting: string;
-    OnClickSort: (name: string | any) => void;
+    data: any[];
+    sort: string;
+    onClickSort: (name: string) => void;
 }
 
 export default function TableComponent(props: TableComponentProps) {
 
-    const [loading] = useState(false);
+    const collumns = props.data[0] && Object.keys(props.data[0]);
+    const data = props.data;
 
     return (
-
         <Table sx={{ minWidth: 550 }} size="medium" stickyHeader >
             <TableHead>
                 <TableRow>
                     {
-                        //onClick={(e) => { props.OnClickHeader(col.value) }}
-                        props.columns.map((col) => (
-
-                            <TableCell key={col.value}>
-                                <Paper sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%' }} >
-                                    <InputBase sx={{ ml: 1, flex: 1 }} placeholder={"Filtrar por " + col.label} />
-                                    <IconButton sx={{ p: '10px' }}>
-                                        <FilterAltIcon />
-                                    </IconButton>
-                                </Paper>
-                                <br />
-                                <Typography variant="h6" color="initial" style={{ userSelect: 'none' }} onClick={() => { props.OnClickSort(col.value) }}>
-                                    <Stack direction="row" spacing={2}>
-                                    {col.label}
-                                    {props.sorting === col.value ? <ArrowDropUpIcon /> : null}{props.sorting === (col.value + "_desc") ? <ArrowDropDownIcon /> : null}
-                                    </Stack>
-                                </Typography>
-                            </TableCell>
-
-                        ))
+                        data[0] && collumns.map((heading: any, value: number) => {
+                            return (
+                                <TableCell key={value}>
+                                    <Typography variant="h6" color="initial" style={{ userSelect: 'none' }} onClick={() => { props.onClickSort(heading) }}>
+                                        <Stack direction="row" spacing={2}>
+                                            {heading}
+                                            {props.sort === heading ? <ArrowDropUpIcon /> : null}{props.sort === (heading + "_desc") ? <ArrowDropDownIcon /> : null}
+                                        </Stack>
+                                    </Typography>
+                                </TableCell>
+                            )
+                        })
                     }
+                    <TableCell align="left">
+                        <Typography variant="h6" color="initial" style={{ userSelect: 'none' }}>
+                            Actions
+                        </Typography>
+                    </TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
                 {
-                    props.data !== null ? props.data.map((row) => (
-
-                        <TableRow key={row.id}>
-                            <TableCell component="th" scope="row">{loading ? <Skeleton /> : row.id}</TableCell>
-                            <TableCell align="left">{loading ? <Skeleton /> : row.name}</TableCell>
-                            <TableCell align="left">{loading ? <Skeleton /> : row.phone}</TableCell>
-                        </TableRow>
-
-                    )) : null
+                    data.map(row => {
+                        return (
+                            <TableRow key={row.id}>
+                                {collumns.map((collumn: any) =>
+                                    <TableCell align="left" key={row[collumn]}>
+                                        {row[collumn]}
+                                    </TableCell>
+                                )}
+                                <TableCell align="left" key={row.id}>
+                                    <Stack direction="row" spacing={2}>
+                                        <Button variant="contained" color="info" startIcon={<EditIcon />}>Editar</Button>
+                                        <Button variant="contained" color="error" startIcon={<DeleteIcon />}>Remover</Button>
+                                    </Stack>
+                                </TableCell>
+                            </TableRow>
+                        )
+                    }
+                    )
                 }
             </TableBody>
         </Table>
