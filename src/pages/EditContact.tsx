@@ -1,4 +1,4 @@
-import { Button, Container, InputLabel, Select, Stack, TextField, Typography } from "@mui/material";
+import { Button, CircularProgress, Container, InputLabel, Select, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { ContactDTO } from "../classes/ContactDTO";
@@ -16,10 +16,13 @@ export default function EditContact() {
     const [data, setData] = useState<ContactDTO>(new ContactDTO());
     const [types, setTypes] = useState<ContactTypeDTO[]>();
 
+    const [loading, setLoading] = useState(true);
+
     async function getById() {
         if (id != null) {
             setData(await db.getById(id));
             setTypes(await db.getTypes());
+            setLoading(false);
         }
     }
 
@@ -28,7 +31,7 @@ export default function EditContact() {
     }
 
     function updateContact() {
-
+        
     }
 
     useEffect(() => {
@@ -37,11 +40,9 @@ export default function EditContact() {
 
     return (
         <div>
-            <Container maxWidth="sm">
-                <br />
+            <Container maxWidth="sm" sx={{ marginTop: 4 }}>
                 <Stack spacing={4}>
                     <Typography variant="h4" color="initial">Editing Contact #{data.id}</Typography>
-
 
                     <TextField
                         id="outlined-helperText"
@@ -54,13 +55,14 @@ export default function EditContact() {
                         id="outlined-helperText"
                         label="Phone"
                         onChange={(e) => setData({ ...data, phone: getNum(parseInt(e.target.value)) })}
+                        inputProps={{ maxLength: 9, minLength: 9 }}
                         value={data.phone}
                         helperText="* Required"
                     />
                 </Stack>
-                <br />
-                <Stack spacing={0}>
-                    <InputLabel id="type-label">Tipo de Contato</InputLabel>
+
+                <Stack spacing={0} sx={{ marginTop: 2 }}>
+                    <InputLabel id="type-label">Type</InputLabel>
                     <Select labelId="type-label" native={true} onChange={handleSelect} value={data.typeId}>
                         {types &&
                             types.map(options => {
@@ -72,10 +74,11 @@ export default function EditContact() {
                         }
                     </Select>
                 </Stack>
-                <br />
-                <Button variant="contained" color="primary" onClick={() => { updateContact() }}>
+                {loading ? <CircularProgress/> :
+                <Button sx={{ marginTop: 4 }} variant="contained" color="primary" onClick={() => { updateContact() }}>
                     Submit
                 </Button>
+                }
             </Container>
 
 

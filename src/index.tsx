@@ -11,6 +11,7 @@ import {
 import Contacts from './pages/Contacts';
 import Navbar from './components/Navbar';
 import EditContact from './pages/EditContact';
+import '@fontsource/roboto/400.css';
 
 ReactDOM.render(
   <BrowserRouter>

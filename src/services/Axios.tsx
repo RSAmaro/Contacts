@@ -48,7 +48,7 @@ export class Api extends Axios {
     }
 
 
-    editRows(id: any) {
+    editContact(id: any) {
         return this.put(`${id}`)
     }
 }
