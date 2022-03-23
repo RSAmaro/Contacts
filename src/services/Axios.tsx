@@ -48,7 +48,17 @@ export class Api extends Axios {
     }
 
 
-    editContact(id: any) {
-        return this.put(`${id}`)
+    async editContact(id: string, contact: ContactDTO) {
+        try {
+            const response = await axios.put('Contacts/' + id, {
+                Id: contact.id,
+                Name: contact.name,
+                Phone: contact.phone,
+                TypeId: contact.typeId
+            })
+            return response.data;
+        } catch (error) {
+            return null;
+        }
     }
 }

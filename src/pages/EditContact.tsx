@@ -3,12 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { ContactDTO } from "../classes/ContactDTO";
 import { ContactTypeDTO } from "../classes/ContactTypeDto";
+import { getNum } from "../classes/Helper";
 import { Api } from "../services/Axios";
-
-function getNum(val: number) {
-    val = +val || 0
-    return val;
-}
 
 export default function EditContact() {
     const db = new Api();
@@ -30,8 +26,9 @@ export default function EditContact() {
         setData({ ...data, typeId: Number.parseInt(event.target.value.toString()) })
     }
 
-    function updateContact() {
-        
+    async function updateContact() {
+        await db.editContact(data.id.toString(), data);
+        window.location.href = "/Contacts";
     }
 
     useEffect(() => {
