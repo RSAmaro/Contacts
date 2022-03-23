@@ -47,6 +47,10 @@ export default function Contacts() {
       if (sort === value.concat("_desc")) { return setSort(""); }
       return setSort(value);
     }
+    
+    const editRow = (value: any) => {
+        window.location.href = `Contacts/Edit/${value}`;
+    }
   
     return (
       <div className="App">
@@ -75,7 +79,7 @@ export default function Contacts() {
             ))}
   
           <TableContainer>
-            <TableComponent data={rowData} sort={sort} onClickSort={headerHandleClick}></TableComponent>
+            <TableComponent data={rowData} sort={sort} onClickSort={headerHandleClick} onEditClick={editRow}></TableComponent>
           </TableContainer>
   
           <TablePagination

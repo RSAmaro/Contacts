@@ -1,4 +1,6 @@
 import axios, { Axios } from 'axios';
+import { ContactDTO } from '../classes/ContactDTO';
+import { ContactTypeDTO } from '../classes/ContactTypeDto';
 import { Contact } from '../interfaces/Contact';
 
 export class Api extends Axios {
@@ -7,13 +9,13 @@ export class Api extends Axios {
     
     constructor() {
         super()
-        axios.defaults.baseURL = 'https://localhost:7081/api/Contacts/';
+        axios.defaults.baseURL = 'https://localhost:7081/api/';
     }
 
     async getRows(page: number, items: number, sort: string, q: string, params: string[]): Promise<Contact[]> {
         try {
             //const response = await axios.get(`List?page=${page}&itemsperpage=${items}&sort=${sort}`);
-            const response = await axios.post('List', {
+            const response = await axios.post('Contacts/List', {
                 page: page,
                 itemsperpage: items,
                 sort: sort,
@@ -26,6 +28,25 @@ export class Api extends Axios {
             return [];
         }
     }
+
+    async getById(id: string): Promise<ContactDTO> {
+        try {
+            const response = await axios.get('Contacts/' + id);
+            return response.data;
+        } catch (error) {
+            return new ContactDTO();
+        }
+    }
+
+    async getTypes(): Promise<ContactTypeDTO[]>{
+        try {
+            const response = await axios.get('ContactType/');
+            return response.data;
+        } catch (error) {
+            return [];
+        }
+    }
+
 
     editRows(id: any) {
         return this.put(`${id}`)

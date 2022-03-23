@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import Contacts from './pages/Contacts';
 import Navbar from './components/Navbar';
-
+import EditContact from './pages/EditContact';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -19,6 +19,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="Contacts" element={<Contacts />} />
+        <Route path="Contacts/Edit/:id" element={<EditContact />} />
       </Routes>
     </React.StrictMode>
   </BrowserRouter>,
