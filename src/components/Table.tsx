@@ -3,6 +3,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { returnCollumns } from '../interfaces/Contact';
 
 export type TableComponentProps = {
     data: any[];
@@ -12,7 +13,7 @@ export type TableComponentProps = {
 
 export default function TableComponent(props: TableComponentProps) {
 
-    const collumns = props.data[0] && Object.keys(props.data[0]);
+    const collumns: string[] = returnCollumns();
     const data = props.data;
 
     return (
@@ -20,10 +21,10 @@ export default function TableComponent(props: TableComponentProps) {
             <TableHead>
                 <TableRow>
                     {
-                        data[0] && collumns.map((heading: any, value: number) => {
+                        collumns.map((heading: any, value: number) => {
                             return (
                                 <TableCell key={value}>
-                                    <Typography variant="h6" color="initial" style={{ userSelect: 'none' }} onClick={() => { props.onClickSort(heading) }}>
+                                    <Typography variant="h6" color="initial" style={{ textTransform: 'capitalize', userSelect: 'none' }} onClick={() => { props.onClickSort(heading) }}>
                                         <Stack direction="row" spacing={2}>
                                             {heading}
                                             {props.sort === heading ? <ArrowDropUpIcon /> : null}{props.sort === (heading + "_desc") ? <ArrowDropDownIcon /> : null}

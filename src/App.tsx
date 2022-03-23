@@ -3,7 +3,7 @@ import { CircularProgress, Container, TableContainer, TablePagination } from '@m
 import { useEffect, useState } from 'react';
 import './App.css';
 import TableComponent from './components/Table';
-import { Contact } from './interfaces/Contact';
+import { Contact, returnCollumns } from './interfaces/Contact';
 import { Api } from './services/Axios';
 
 
@@ -11,6 +11,12 @@ function App() {
   const db = new Api();
 
   const [rowData, setRowData] = useState<Contact[]>([]);
+  const collumns: string[] = returnCollumns();
+
+  const [q, setQ] = useState("");
+  const [searchCollumns, setSearchCollumns] = useState([
+    'id',
+  ]);
 
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(5);
@@ -34,7 +40,7 @@ function App() {
   }, [page, perPage, sort]);
 
   // Pagination Handles
-  const handleChangePage = (event: any, newPage: number) => {
+  const handleChangePage = (_event: any, newPage: number) => {
     setPage(newPage);
   };
 
@@ -54,16 +60,41 @@ function App() {
     return setSort(value);
   }
 
+  function Search() {
+
+  }
+
   return (
     <div className="App">
       <Container className="App">
 
-      {loading ? <CircularProgress/> : 
+        <input type="text" value={q} onChange={(e) => setQ(e.target.value)} />
+        {collumns &&
+          collumns.map((column) => (
+
+            <label>
+              <input
+                type='checkbox'
+                checked={searchCollumns.includes(column)}
+                onChange={(e) => {
+                  const checked = searchCollumns.includes(column);
+                  setSearchCollumns((prev: any) =>
+                    checked
+                      ? prev.filter((sc: any) => sc !== column)
+                      : [...prev, column],
+                  );
+                }}
+              />
+              {column}
+            </label>
+
+          ))}
+
         <TableContainer>
           <TableComponent data={rowData} sort={sort} onClickSort={headerHandleClick}></TableComponent>
         </TableContainer>
-      }
-      
+
+
         <TablePagination
           component="div"
           count={count}
