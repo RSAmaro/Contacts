@@ -47,6 +47,19 @@ export class Api extends Axios {
         }
     }
 
+    async createContact(contact: ContactDTO): Promise<Boolean> {
+        try {
+            await axios.post('Contacts/', {
+                Name: contact.name,
+                Phone: contact.phone,
+                TypeId: contact.typeId
+            })
+            
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
 
     async editContact(id: string, contact: ContactDTO) {
         try {

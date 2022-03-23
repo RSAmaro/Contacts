@@ -16,12 +16,12 @@ const Navbar = () => {
                     <Stack direction="row" spacing={2} sx={{ marginLeft: 2 }}>
                         <Link to="Contacts">
                             <Button variant="contained" color="success">
-                                Contatos
+                                Contacts
                             </Button>
                         </Link>
                         <Link to="Contacts">
                             <Button variant="contained" color="success">
-                                Tipos de Contatos
+                                Types
                             </Button>
                         </Link>
                     </Stack>

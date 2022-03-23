@@ -1,5 +1,6 @@
-import { Container, Input, Stack, TableContainer, TablePagination, Typography } from '@mui/material';
+import { Button, Container, Input, Stack, TableContainer, TablePagination, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import TableComponent from '../components/Table';
 import { Contact, returnCollumns } from '../interfaces/Contact';
 import { Api } from '../services/Axios';
@@ -60,28 +61,28 @@ export default function Contacts() {
                     <Input type="text" value={q} onChange={(e) => { setQ(e.target.value); setPage(0) }} />
                 </Stack>
 
-                <br />
-                {collumns &&
-                    collumns.map((column) => (
+                <Stack direction="row" spacing={2}>
+                    {collumns &&
+                        collumns.map((column) => (
 
-                        <label>
-                            <input
-                                type='checkbox'
-                                checked={searchCollumns.includes(column)}
-                                onChange={(_e) => {
-                                    const checked = searchCollumns.includes(column);
-                                    setSearchCollumns((prev: any) =>
-                                        checked
-                                            ? prev.filter((sc: any) => sc !== column)
-                                            : [...prev, column],
-                                    );
-                                }}
-                            />
-                            {column}
-                        </label>
+                            <label>
+                                <input
+                                    type='checkbox'
+                                    checked={searchCollumns.includes(column)}
+                                    onChange={(_e) => {
+                                        const checked = searchCollumns.includes(column);
+                                        setSearchCollumns((prev: any) =>
+                                            checked
+                                                ? prev.filter((sc: any) => sc !== column)
+                                                : [...prev, column],
+                                        );
+                                    }}
+                                />
+                                {column}
+                            </label>
 
-                    ))}
-
+                        ))}
+                </Stack>
                 <TableContainer>
                     <TableComponent data={rowData} sort={sort} onClickSort={headerHandleClick} onEditClick={editRow}></TableComponent>
                 </TableContainer>
@@ -97,6 +98,12 @@ export default function Contacts() {
                     showFirstButton={true}
                     showLastButton={true}
                 />
+
+                <Link to="Create">
+                    <Button variant="contained" color="success">
+                        Add Contact
+                    </Button>
+                </Link>
             </Container>
         </div>
     );

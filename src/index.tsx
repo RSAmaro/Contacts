@@ -12,14 +12,16 @@ import Contacts from './pages/Contacts';
 import Navbar from './components/Navbar';
 import EditContact from './pages/EditContact';
 import '@fontsource/roboto/400.css';
+import CreateContact from './pages/CreateContact';
 
 ReactDOM.render(
   <BrowserRouter>
     <React.StrictMode>
-      <Navbar/>
+      <Navbar />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="Contacts" element={<Contacts />} />
+        <Route path="Contacts/Create" element={<CreateContact />} />
         <Route path="Contacts/Edit/:id" element={<EditContact />} />
       </Routes>
     </React.StrictMode>
