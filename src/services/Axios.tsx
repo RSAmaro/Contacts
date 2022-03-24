@@ -74,4 +74,13 @@ export class Api extends Axios {
             return null;
         }
     }
+
+    async deleteContact(id: string): Promise<Boolean> {
+        try {
+            await axios.delete('Contacts/' + id);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
 }

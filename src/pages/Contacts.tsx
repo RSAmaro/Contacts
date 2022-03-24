@@ -53,38 +53,43 @@ export default function Contacts() {
         window.location.href = `Contacts/Edit/${value}`;
     }
 
+    const delRow = (value: any) => {
+        window.location.href = `Contacts/Delete/${value}`;
+    }
+
     return (
         <div className="App">
             <Container className="App" sx={{ marginTop: 2 }}>
-                <Stack>
-                    <Typography variant="h6" color="initial">Search</Typography>
-                    <Input type="text" value={q} onChange={(e) => { setQ(e.target.value); setPage(0) }} />
-                </Stack>
+                <Container maxWidth="xs">
+                    <Stack>
+                        <Typography variant="h6" color="initial">Search</Typography>
+                        <Input type="text" value={q} onChange={(e) => { setQ(e.target.value); setPage(0) }} />
+                    </Stack>
+                    <Stack direction="row" spacing={2}>
+                        {collumns &&
+                            collumns.map((column) => (
 
-                <Stack direction="row" spacing={2}>
-                    {collumns &&
-                        collumns.map((column) => (
+                                <label>
+                                    <input
+                                        type='checkbox'
+                                        checked={searchCollumns.includes(column)}
+                                        onChange={(_e) => {
+                                            const checked = searchCollumns.includes(column);
+                                            setSearchCollumns((prev: any) =>
+                                                checked
+                                                    ? prev.filter((sc: any) => sc !== column)
+                                                    : [...prev, column],
+                                            );
+                                        }}
+                                    />
+                                    {column}
+                                </label>
 
-                            <label>
-                                <input
-                                    type='checkbox'
-                                    checked={searchCollumns.includes(column)}
-                                    onChange={(_e) => {
-                                        const checked = searchCollumns.includes(column);
-                                        setSearchCollumns((prev: any) =>
-                                            checked
-                                                ? prev.filter((sc: any) => sc !== column)
-                                                : [...prev, column],
-                                        );
-                                    }}
-                                />
-                                {column}
-                            </label>
-
-                        ))}
-                </Stack>
+                            ))}
+                    </Stack>
+                </Container>
                 <TableContainer>
-                    <TableComponent data={rowData} sort={sort} onClickSort={headerHandleClick} onEditClick={editRow}></TableComponent>
+                    <TableComponent data={rowData} sort={sort} onClickSort={headerHandleClick} onEditClick={editRow} onDelClick={delRow}></TableComponent>
                 </TableContainer>
 
                 <TablePagination

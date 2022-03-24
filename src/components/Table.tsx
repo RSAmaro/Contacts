@@ -10,6 +10,7 @@ export type TableComponentProps = {
     sort: string;
     onClickSort: (name: string) => void;
     onEditClick: (id: number) => void;
+    onDelClick: (id: number) => void;
 }
 
 export default function TableComponent(props: TableComponentProps) {
@@ -54,8 +55,8 @@ export default function TableComponent(props: TableComponentProps) {
                                 )}
                                 <TableCell align="left" key={row.id}>
                                     <Stack direction="row" spacing={2}>
-                                        <Button variant="contained" color="info" startIcon={<EditIcon />} onClick={() => { props.onEditClick(row.id) }}>Editar</Button>
-                                        <Button variant="contained" color="error" startIcon={<DeleteIcon />}>Remover</Button>
+                                        <Button variant="contained" color="info" startIcon={<EditIcon />} onClick={() => { props.onEditClick(row.id) }}>Edit</Button>
+                                        <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => { props.onDelClick(row.id) }}>Delete</Button>
                                     </Stack>
                                 </TableCell>
                             </TableRow>

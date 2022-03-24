@@ -3,16 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import {BrowserRouter,  Routes,  Route} from "react-router-dom";
 import Contacts from './pages/Contacts';
 import Navbar from './components/Navbar';
 import EditContact from './pages/EditContact';
 import '@fontsource/roboto/400.css';
 import CreateContact from './pages/CreateContact';
+import DeleteContact from './pages/DeleteContact';
+
 
 ReactDOM.render(
   <BrowserRouter>
@@ -23,6 +21,7 @@ ReactDOM.render(
         <Route path="Contacts" element={<Contacts />} />
         <Route path="Contacts/Create" element={<CreateContact />} />
         <Route path="Contacts/Edit/:id" element={<EditContact />} />
+        <Route path="Contacts/Delete/:id" element={<DeleteContact />} />
       </Routes>
     </React.StrictMode>
   </BrowserRouter>,
