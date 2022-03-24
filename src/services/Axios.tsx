@@ -1,6 +1,7 @@
 import axios, { Axios } from 'axios';
 import { ContactDTO } from '../classes/ContactDTO';
 import { ContactTypeDTO } from '../classes/ContactTypeDto';
+import { MessageHelper } from '../classes/MessageHelper';
 import { Contact } from '../interfaces/Contact';
 
 export class Api extends Axios {
@@ -32,7 +33,7 @@ export class Api extends Axios {
     async getById(id: string): Promise<ContactDTO> {
         try {
             const response = await axios.get('Contacts/' + id);
-            return response.data;
+            return response.data.obj;
         } catch (error) {
             return new ContactDTO();
         }
@@ -47,21 +48,22 @@ export class Api extends Axios {
         }
     }
 
-    async createContact(contact: ContactDTO): Promise<Boolean> {
+    async createContact(contact: ContactDTO): Promise<MessageHelper> {
         try {
-            await axios.post('Contacts/', {
+            const response = await axios.post('Contacts/', {
                 Name: contact.name,
                 Phone: contact.phone,
                 TypeId: contact.typeId
             })
-            
-            return true;
+            return response.data;
         } catch (error) {
-            return false;
+            const result = new MessageHelper();
+            result.message = "Erro ao Criar";
+            return result;
         }
     }
 
-    async editContact(id: string, contact: ContactDTO) {
+    async editContact(id: string, contact: ContactDTO) : Promise<MessageHelper> {
         try {
             const response = await axios.put('Contacts/' + id, {
                 Id: contact.id,
@@ -71,7 +73,9 @@ export class Api extends Axios {
             })
             return response.data;
         } catch (error) {
-            return null;
+            const result = new MessageHelper();
+            result.message = "Erro ao Editar";
+            return result;
         }
     }
 

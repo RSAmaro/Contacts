@@ -1,4 +1,4 @@
-import { Button, Container, Input, Stack, TableContainer, TablePagination, Typography } from '@mui/material';
+import { Button, Container, Input, Paper, Stack, TableContainer, TablePagination, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TableComponent from '../components/Table';
@@ -67,9 +67,9 @@ export default function Contacts() {
                     </Stack>
                     <Stack direction="row" spacing={2}>
                         {collumns &&
-                            collumns.map((column) => (
+                            collumns.map((column, index) => (
 
-                                <label>
+                                <label key={index}>
                                     <input
                                         type='checkbox'
                                         checked={searchCollumns.includes(column)}
@@ -88,7 +88,8 @@ export default function Contacts() {
                             ))}
                     </Stack>
                 </Container>
-                <TableContainer>
+                <br/>
+                <TableContainer component={Paper}>
                     <TableComponent data={rowData} sort={sort} onClickSort={headerHandleClick} onEditClick={editRow} onDelClick={delRow}></TableComponent>
                 </TableContainer>
 

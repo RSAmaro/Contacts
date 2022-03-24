@@ -1,10 +1,13 @@
-import { Button, CircularProgress, Container, InputLabel, Select, Stack, TextField, Typography } from "@mui/material";
+import { Button, CircularProgress, Container, InputLabel, Paper, Select, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { ContactDTO } from "../classes/ContactDTO";
 import { ContactTypeDTO } from "../classes/ContactTypeDto";
 import { getNum } from "../classes/Helper";
 import { Api } from "../services/Axios";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function EditContact() {
     const db = new Api();
@@ -26,8 +29,13 @@ export default function EditContact() {
         setData({ ...data, typeId: Number.parseInt(event.target.value.toString()) })
     }
 
-    async function updateContact() {
-        await db.editContact(data.id.toString(), data);
+    async function updateContact(){
+        var response = await db.editContact(data.id.toString(), data);
+        if (response == null || response.success === false) {
+            return toast.error(response.message, {
+                theme: "colored"
+            });
+        }
         window.location.href = "/Contacts";
     }
 
@@ -37,7 +45,19 @@ export default function EditContact() {
 
     return (
         <div>
-            <Container maxWidth="sm" sx={{ marginTop: 4 }}>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+
+            <Container maxWidth="sm" component={Paper} sx={{ marginTop: 4, padding: 4 }}>
                 <Stack spacing={4}>
                     <Typography variant="h4" color="initial">Editing Contact #{data.id}</Typography>
 
@@ -71,10 +91,10 @@ export default function EditContact() {
                         }
                     </Select>
                 </Stack>
-                {loading ? <CircularProgress/> :
-                <Button sx={{ marginTop: 4 }} variant="contained" color="primary" onClick={() => { updateContact() }}>
-                    Submit
-                </Button>
+                {loading ? <CircularProgress /> :
+                    <Button sx={{ marginTop: 4 }} variant="contained" color="primary" onClick={() => { updateContact() }}>
+                        Submit
+                    </Button>
                 }
             </Container>
 

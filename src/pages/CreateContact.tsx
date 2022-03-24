@@ -1,9 +1,12 @@
-import { Container, Stack, Typography, TextField, InputLabel, Select, CircularProgress, Button } from "@mui/material";
+import { Container, Stack, Typography, TextField, InputLabel, Select, Button, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ContactDTO } from "../classes/ContactDTO";
 import { ContactTypeDTO } from "../classes/ContactTypeDto";
 import { getNum } from "../classes/Helper";
 import { Api } from "../services/Axios";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CreateContact() {
     const db = new Api();
@@ -15,8 +18,13 @@ export default function CreateContact() {
     }
 
     async function createContact() {
-        if (await db.createContact(data))
-            window.location.href = "/Contacts";
+        var response = await db.createContact(data);
+        if (response == null || response.success === false) {
+            return toast.error(response.message, {
+                theme: "colored"
+            });
+        }
+        window.location.href = "/Contacts";
     }
 
     const handleSelect = (event: any) => {
@@ -24,13 +32,25 @@ export default function CreateContact() {
     }
 
     useEffect(() => {
-        getTypes()
+        getTypes() // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
     return (
         <div>
-            <Container maxWidth="sm" sx={{ marginTop: 4 }}>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+
+            <Container maxWidth="sm" component={Paper} sx={{ marginTop: 4, padding: 4 }}>
                 <Stack spacing={4}>
                     <Typography variant="h4" color="initial">Create Contact</Typography>
 
@@ -64,6 +84,7 @@ export default function CreateContact() {
                             )
                         }
                     </Select>
+                    <span>* Required</span>
                 </Stack>
 
                 <Button sx={{ marginTop: 4 }} variant="contained" color="primary" onClick={() => { createContact() }}>
