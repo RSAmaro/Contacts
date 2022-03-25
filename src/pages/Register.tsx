@@ -1,30 +1,68 @@
 import { Box, Button, Container, CssBaseline, Grid, Link, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { RegisterDTO } from "../models/Register";
+import { RegisterCreateDTO, RegisterDTO } from "../models/Register";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Api } from "../services/Axios";
 
 export default function Register() {
+    const db = new Api();
+    const [data, setData] = useState<RegisterCreateDTO>(new RegisterCreateDTO());
 
-    const [data, setData] = useState<RegisterDTO>(new RegisterDTO());
+    async function createUser(user: RegisterDTO) {
+        var response = await db.createUser(user);
+        if (response == null) {
+            return toast.error("Incorrect values!", {
+                theme: "colored"
+            });
+        }
+        window.location.href = "/Login";
+    }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        if(data.email === "" || data.password === "" || data.confirmPassword === "")
+            return toast.error("All rows must have a value! ", {
+                theme: "colored"
+            });
+
+        if (data.password !== data.confirmPassword)
+            return toast.error("Passwords should be the same! ", {
+                theme: "colored"
+            });
+
+        const formValues = new RegisterDTO();
+        formValues.email = data.email;
+        formValues.password = data.password;
+
+        createUser(formValues);
+
+        console.log(formValues);
+
     };
 
     return (
         <>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}>
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}>
                     <Typography component="h1" variant="h5">
                         Register
                     </Typography>
@@ -49,6 +87,20 @@ export default function Register() {
                             label="Password"
                             type="password"
                             id="password"
+                            onChange={(e) => setData({ ...data, password: e.target.value })}
+                            value={data.password}
+                            autoComplete="current-password"
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Confirm Password"
+                            type="password"
+                            id="password"
+                            onChange={(e) => setData({ ...data, confirmPassword: e.target.value })}
+                            value={data.confirmPassword}
                             autoComplete="current-password"
                         />
                         <Button
@@ -62,7 +114,7 @@ export default function Register() {
                         <Grid container>
                             <Grid item>
                                 <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                    {"Already have an account? Sign in here!"}
                                 </Link>
                             </Grid>
                         </Grid>

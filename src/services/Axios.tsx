@@ -4,6 +4,9 @@ import { ContactTypeDTO } from '../models/ContactTypeDto';
 import { MessageHelper } from '../classes/MessageHelper';
 import { Contact } from '../interfaces/Contact';
 import { ContactType } from '../interfaces/ContactType';
+import { RegisterDTO } from '../models/Register';
+import { LoginDTO } from '../models/Login';
+import { TokenDTO } from '../models/TokenDTO';
 
 export class Api extends Axios {
 
@@ -139,6 +142,36 @@ export class Api extends Axios {
             return response.data.obj;
         } catch (error) {
             return new ContactTypeDTO();
+        }
+    }
+
+    async createUser(user: RegisterDTO): Promise<TokenDTO> {
+        try {
+            const response = await axios.post('User/Create', {
+                email: user.email,
+                password: user.password
+            })
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('expiration', response.data.expiration);
+            return response.data;
+        } catch (error) {
+            const result = new TokenDTO();
+            return result;
+        }
+    }
+
+    async loginUser(user: LoginDTO): Promise<TokenDTO> {
+        try {
+            const response = await axios.post('User/Login', {
+                email: user.email,
+                password: user.password
+            })
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('expiration', response.data.expiration);
+            return response.data;
+        } catch (error) {
+            const result = new TokenDTO();
+            return result;
         }
     }
 }
