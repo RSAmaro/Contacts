@@ -2,14 +2,14 @@ import { Button, Container, Input, Paper, Stack, TableContainer, TablePagination
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TableComponent from '../components/Table';
-import { Contact, returnCollumns } from '../interfaces/Contact';
+import { ContactType, returnTypeCollumns } from '../interfaces/ContactType';
 import { Api } from '../services/Axios';
 
-export default function Contacts() {
+export default function ContactsType() {
     const db = new Api();
 
-    const [rowData, setRowData] = useState<Contact[]>([]);
-    const collumns: string[] = returnCollumns();
+    const [rowData, setRowData] = useState<ContactType[]>([]);
+    const collumns: string[] = returnTypeCollumns();
 
     const [q, setQ] = useState("");
     const [searchCollumns, setSearchCollumns] = useState([
@@ -24,7 +24,7 @@ export default function Contacts() {
     const [count, setCount] = useState(0);
 
     async function getData() {
-        setRowData(await db.getRows((page + 1), perPage, sort, q, searchCollumns));
+        setRowData(await db.getTypeRows((page + 1), perPage, sort, q, searchCollumns));
         setCount(db.count);
     }
 
@@ -50,11 +50,11 @@ export default function Contacts() {
     }
 
     const editRow = (value: any) => {
-        window.location.href = `Contacts/Edit/${value}`;
+        //window.location.href = `Contacts/Edit/${value}`;
     }
 
     const delRow = (value: any) => {
-        window.location.href = `Contacts/Delete/${value}`;
+        //window.location.href = `Contacts/Delete/${value}`;
     }
 
     return (
@@ -90,7 +90,7 @@ export default function Contacts() {
                 </Container>
                 <br/>
                 <TableContainer component={Paper}>
-                    <TableComponent columns={collumns} data={rowData} sort={sort} onClickSort={headerHandleClick} onEditClick={editRow} onDelClick={delRow} delete={true}></TableComponent>
+                    <TableComponent columns={collumns} data={rowData} sort={sort} onClickSort={headerHandleClick} onEditClick={editRow} onDelClick={delRow} delete={false}></TableComponent>
                 </TableContainer>
 
                 <TablePagination
@@ -107,7 +107,7 @@ export default function Contacts() {
 
                 <Link to="Create">
                     <Button variant="contained" color="success">
-                        Add Contact
+                        Add Contact Type
                     </Button>
                 </Link>
             </Container>

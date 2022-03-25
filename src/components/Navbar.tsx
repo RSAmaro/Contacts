@@ -19,7 +19,7 @@ const Navbar = () => {
                                 Contacts
                             </Button>
                         </Link>
-                        <Link to="Contacts">
+                        <Link to="ContactsType">
                             <Button variant="contained" color="success">
                                 Types
                             </Button>

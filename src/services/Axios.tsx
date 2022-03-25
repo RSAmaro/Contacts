@@ -3,6 +3,7 @@ import { ContactDTO } from '../classes/ContactDTO';
 import { ContactTypeDTO } from '../classes/ContactTypeDto';
 import { MessageHelper } from '../classes/MessageHelper';
 import { Contact } from '../interfaces/Contact';
+import { ContactType } from '../interfaces/ContactType';
 
 export class Api extends Axios {
 
@@ -85,6 +86,23 @@ export class Api extends Axios {
             return true;
         } catch (error) {
             return false;
+        }
+    }
+
+    async getTypeRows(page: number, items: number, sort: string, q: string, params: string[]): Promise<ContactType[]> {
+        try {
+            //const response = await axios.get(`List?page=${page}&itemsperpage=${items}&sort=${sort}`);
+            const response = await axios.post('ContactType/List', {
+                page: page,
+                itemsperpage: items,
+                sort: sort,
+                qry: q,
+                qryParam: params
+            })
+            this.count = response.data.totalCount;
+            return response.data.results;
+        } catch (error) {
+            return [];
         }
     }
 }
