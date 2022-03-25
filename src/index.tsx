@@ -13,6 +13,7 @@ import DeleteContact from './pages/DeleteContact';
 import ContactsType from './pages/ContactsType';
 import CreateType from './pages/CreateType';
 import EditType from './pages/EditType';
+import Register from './pages/Register';
 
 
 ReactDOM.render(
@@ -28,6 +29,7 @@ ReactDOM.render(
         <Route path="ContactsType" element={<ContactsType />} />
         <Route path="ContactsType/Create" element={<CreateType />} />
         <Route path="ContactsType/Edit/:id" element={<EditType />} />
+        <Route path="Register" element={<Register />} />
       </Routes>
     </React.StrictMode>
   </BrowserRouter>,

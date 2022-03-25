@@ -4,7 +4,7 @@ import { Api } from "../services/Axios";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ContactTypeDTO } from "../classes/ContactTypeDto";
+import { ContactTypeDTO } from "../models/ContactTypeDto";
 import { useParams } from "react-router-dom";
 
 export default function EditType() {
@@ -21,7 +21,8 @@ export default function EditType() {
     }
 
     async function updateType() {
-        var response = await db.createType(data);
+        var response = await db.editType(data.id.toString(), data);
+        console.log(data);
         if (response == null || response.success === false) {
             return toast.error(response.message, {
                 theme: "colored"

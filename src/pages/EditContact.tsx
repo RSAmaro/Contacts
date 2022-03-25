@@ -1,8 +1,8 @@
 import { Button, CircularProgress, Container, InputLabel, Paper, Select, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
-import { ContactDTO } from "../classes/ContactDTO";
-import { ContactTypeDTO } from "../classes/ContactTypeDto";
+import { ContactDTO } from "../models/ContactDTO";
+import { ContactTypeDTO } from "../models/ContactTypeDto";
 import { getNum } from "../classes/Helper";
 import { Api } from "../services/Axios";
 

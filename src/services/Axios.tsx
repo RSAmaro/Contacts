@@ -1,6 +1,6 @@
 import axios, { Axios } from 'axios';
-import { ContactDTO } from '../classes/ContactDTO';
-import { ContactTypeDTO } from '../classes/ContactTypeDto';
+import { ContactDTO } from '../models/ContactDTO';
+import { ContactTypeDTO } from '../models/ContactTypeDto';
 import { MessageHelper } from '../classes/MessageHelper';
 import { Contact } from '../interfaces/Contact';
 import { ContactType } from '../interfaces/ContactType';
@@ -115,6 +115,20 @@ export class Api extends Axios {
         } catch (error) {
             const result = new MessageHelper();
             result.message = "Erro ao Criar, certifique-se que todos os campos estão preenchidos!";
+            return result;
+        }
+    }
+
+    async editType(id: string, type: ContactTypeDTO) : Promise<MessageHelper> {
+        try {
+            const response = await axios.put('ContactType/' + id, {
+                Id: type.id,
+                Name: type.name,
+            })
+            return response.data;
+        } catch (error) {
+            const result = new MessageHelper();
+            result.message = "Erro ao Editar, certifique-se que todos os campos estão preenchidos!";
             return result;
         }
     }

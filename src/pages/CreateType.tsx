@@ -4,7 +4,7 @@ import { Api } from "../services/Axios";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ContactTypeDTO } from "../classes/ContactTypeDto";
+import { ContactTypeDTO } from "../models/ContactTypeDto";
 
 export default function CreateType() {
     const db = new Api();

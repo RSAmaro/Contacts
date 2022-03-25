@@ -1,8 +1,8 @@
 import { Button, CircularProgress, Container, Paper, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
-import { ContactDTO } from "../classes/ContactDTO";
-import { ContactTypeDTO } from "../classes/ContactTypeDto";
+import { ContactDTO } from "../models/ContactDTO";
+import { ContactTypeDTO } from "../models/ContactTypeDto";
 import { Api } from "../services/Axios";
 
 export default function DeleteContact() {

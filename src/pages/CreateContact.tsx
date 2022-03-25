@@ -1,7 +1,7 @@
 import { Container, Stack, Typography, TextField, InputLabel, Select, Button, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
-import { ContactDTO } from "../classes/ContactDTO";
-import { ContactTypeDTO } from "../classes/ContactTypeDto";
+import { ContactDTO } from "../models/ContactDTO";
+import { ContactTypeDTO } from "../models/ContactTypeDto";
 import { getNum } from "../classes/Helper";
 import { Api } from "../services/Axios";
 
