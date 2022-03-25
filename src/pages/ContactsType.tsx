@@ -50,12 +50,10 @@ export default function ContactsType() {
     }
 
     const editRow = (value: any) => {
-        //window.location.href = `Contacts/Edit/${value}`;
+        window.location.href = `ContactsType/Edit/${value}`;
     }
 
-    const delRow = (value: any) => {
-        //window.location.href = `Contacts/Delete/${value}`;
-    }
+    const delRow = () => {}
 
     return (
         <div className="App">

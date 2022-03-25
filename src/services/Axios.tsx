@@ -59,7 +59,7 @@ export class Api extends Axios {
             return response.data;
         } catch (error) {
             const result = new MessageHelper();
-            result.message = "Erro ao Criar";
+            result.message = "Erro ao Criar, certifique-se que todos os campos estão preenchidos!";
             return result;
         }
     }
@@ -75,7 +75,7 @@ export class Api extends Axios {
             return response.data;
         } catch (error) {
             const result = new MessageHelper();
-            result.message = "Erro ao Editar";
+            result.message = "Erro ao Editar, certifique-se que todos os campos estão preenchidos!";
             return result;
         }
     }
@@ -103,6 +103,28 @@ export class Api extends Axios {
             return response.data.results;
         } catch (error) {
             return [];
+        }
+    }
+
+    async createType(contact: ContactTypeDTO): Promise<MessageHelper> {
+        try {
+            const response = await axios.post('ContactType/', {
+                Name: contact.name,
+            })
+            return response.data;
+        } catch (error) {
+            const result = new MessageHelper();
+            result.message = "Erro ao Criar, certifique-se que todos os campos estão preenchidos!";
+            return result;
+        }
+    }
+
+    async getTypeById(id: string): Promise<ContactTypeDTO> {
+        try {
+            const response = await axios.get('ContactType/' + id);
+            return response.data.obj;
+        } catch (error) {
+            return new ContactTypeDTO();
         }
     }
 }

@@ -11,6 +11,8 @@ import '@fontsource/roboto/400.css';
 import CreateContact from './pages/CreateContact';
 import DeleteContact from './pages/DeleteContact';
 import ContactsType from './pages/ContactsType';
+import CreateType from './pages/CreateType';
+import EditType from './pages/EditType';
 
 
 ReactDOM.render(
@@ -24,6 +26,8 @@ ReactDOM.render(
         <Route path="Contacts/Edit/:id" element={<EditContact />} />
         <Route path="Contacts/Delete/:id" element={<DeleteContact />} />
         <Route path="ContactsType" element={<ContactsType />} />
+        <Route path="ContactsType/Create" element={<CreateType />} />
+        <Route path="ContactsType/Edit/:id" element={<EditType />} />
       </Routes>
     </React.StrictMode>
   </BrowserRouter>,
