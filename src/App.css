@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+tbody tr:nth-child(odd) {
+  background-color: rgba(150,150,150,0.1);
+}
+
+thead th{
+  background-color: #1976d2 !important;
+}
+
+tbody td:first-child {
+  background-color: rgba(150,150,150,0.1);
+}
+
+th > h6{
+  color: white !important;
+}
+
+table {
+  background-color: rgba(150,150,150,0);
+}

@@ -4,7 +4,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export type TableComponentProps = { 
+export type TableComponentProps = {
     columns: any[];
     data: any[];
     sort: string;
@@ -15,8 +15,8 @@ export type TableComponentProps = {
 }
 
 export default function TableComponent(props: TableComponentProps) {
-    
-    const collumns = props.columns; 
+
+    const collumns = props.columns;
     const data = props.data;
 
     return (
@@ -55,10 +55,10 @@ export default function TableComponent(props: TableComponentProps) {
                                     </TableCell>
                                 )}
                                 <TableCell align="left" key={row.id}>
-                                    <Stack direction="row" spacing={2}>
+                                    <Stack direction="row" spacing={(props.delete === false) ? 0 : 2}>
                                         <Button variant="contained" color="info" startIcon={<EditIcon />} onClick={() => { props.onEditClick(row.id) }}>Edit</Button>
                                         {(props.delete === false) ? null :
-                                        <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => { props.onDelClick(row.id) }}>Delete</Button>
+                                            <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => { props.onDelClick(row.id) }}>Delete</Button>
                                         }
                                     </Stack>
                                 </TableCell>
