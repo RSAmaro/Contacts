@@ -7,7 +7,6 @@ import { Api } from '../services/Axios';
 
 export default function Contacts() {
     const db = new Api();
-
     const [rowData, setRowData] = useState<Contact[]>([]);
     const collumns: string[] = returnCollumns();
 

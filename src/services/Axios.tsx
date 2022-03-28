@@ -151,8 +151,7 @@ export class Api extends Axios {
                 email: user.email,
                 password: user.password
             })
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('expiration', response.data.expiration);
+            localStorage.setItem("user", JSON.stringify(response.data));
             return response.data;
         } catch (error) {
             const result = new TokenDTO();
@@ -166,8 +165,7 @@ export class Api extends Axios {
                 email: user.email,
                 password: user.password
             })
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('expiration', response.data.expiration);
+            localStorage.setItem("user", JSON.stringify(response.data));
             return response.data;
         } catch (error) {
             const result = new TokenDTO();

@@ -25,6 +25,18 @@ const Navbar = () => {
                             </Button>
                         </Link>
                     </Stack>
+                    <Stack direction="row" spacing={2} sx={{ marginLeft: 'auto' }}>
+                        <Link to="Login">
+                            <Button variant="contained" color="success">
+                                Login
+                            </Button>
+                        </Link>
+                        <Link to="Register">
+                            <Button variant="contained" color="success">
+                                Register
+                            </Button>
+                        </Link>
+                    </Stack>
                 </Toolbar>
             </Container>
         </AppBar>

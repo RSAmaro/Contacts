@@ -36,6 +36,7 @@ export default function EditContact() {
                 theme: "colored"
             });
         }
+        
         window.location.href = "/Contacts";
     }
 
