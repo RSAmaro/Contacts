@@ -161,18 +161,19 @@ export class Api extends Axios {
         }
     }
 
-    async loginUser(user: LoginDTO): Promise<TokenDTO> {
+    async loginUser(user: LoginDTO): Promise<MessageHelper> {
         try {
             const response = await axios.post('User/Login', {
                 email: user.email,
                 password: user.password
             })
-            
-            localStorage.setItem("token", response.data.token);
-            localStorage.setItem("expiration", response.data.expiration);
+
+            localStorage.setItem("token", response.data.obj.token);
+            localStorage.setItem("expiration", response.data.obj.expiration);
             return response.data;
         } catch (error) {
-            const result = new TokenDTO();
+            const result = new MessageHelper();
+            result.message = "Erro, certifique-se que todos os campos estão preenchidos!";
             return result;
         }
     }

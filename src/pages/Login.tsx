@@ -11,16 +11,22 @@ export default function Login() {
   const db = new Api();
   const [data, setData] = useState<LoginDTO>(new LoginDTO());
 
-  const value = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   
   async function loginUser(user: LoginDTO) {
     var response = await db.loginUser(user);
-    if (response == null) {
+    if (response == null  || response.success === false) {
       return toast.error("Incorrect Login!", {
         theme: "colored"
       });
     }
-    window.location.href = "/";
+
+    auth?.setAuth({
+      token: "TESTE",
+      getAuth: true
+    });
+
+    //window.location.href = "/";
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,12 +37,6 @@ export default function Login() {
       });
 
     loginUser(data);
-    
-    value?.setAuth({
-      token: "TESTE",
-      getAuth: true
-    });
-
   };
 
   return (

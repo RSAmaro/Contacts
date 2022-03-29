@@ -1,7 +1,16 @@
 import { useContext } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { AuthContext } from './context/AuthContext';
-import { AuthenticatedRoutes, UnauthenticatedRoutes } from './routes/Routes';
+import Contacts from "./pages/Contacts";
+import EditContact from './pages/EditContact';
+import CreateContact from './pages/CreateContact';
+import DeleteContact from './pages/DeleteContact';
+import ContactsType from './pages/ContactsType';
+import CreateType from './pages/CreateType';
+import EditType from './pages/EditType';
+import Register from './pages/Register';
+import Login from './pages/Login';
 
 function App() {
   const value = useContext(AuthContext);
@@ -10,14 +19,19 @@ function App() {
   console.log(auth?.getAuth)
 
   let routes = (
-    <AuthenticatedRoutes/>
+    <Routes>
+      <Route path="Contacts" element={auth?.getAuth ? <Contacts /> : <Navigate replace to="/Login" />} />
+      <Route path="Contacts/Create" element={auth?.getAuth ? <CreateContact /> : <Navigate replace to="/Login" />} />
+      <Route path="Contacts/Edit/:id" element={auth?.getAuth ? <EditContact /> : <Navigate replace to="/Login" />} />
+      <Route path="Contacts/Delete/:id" element={auth?.getAuth ? <DeleteContact /> : <Navigate replace to="/Login" />} />
+      <Route path="ContactsType" element={auth?.getAuth ? <ContactsType /> : <Navigate replace to="/Login" />} />
+      <Route path="ContactsType/Create" element={auth?.getAuth ? <CreateType /> : <Navigate replace to="/Login" />} />
+      <Route path="ContactsType/Edit/:id" element={auth?.getAuth ? <EditType /> : <Navigate replace to="/Login" />} />
+      <Route path="Register" element={<Register />} />
+      <Route path="Login" element={<Login />} />
+    </Routes>
   );
 
-  if (auth?.getAuth) {
-    routes = (
-      <UnauthenticatedRoutes/>
-    );
-  }
   return <div className="App">{routes}</div>;
 }
 
