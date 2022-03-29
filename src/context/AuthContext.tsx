@@ -1,39 +1,27 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from "react";
 
-interface AuthProps {
-    loggedIn: boolean | false
+interface IAuth {
+  token: string;
+  getAuth: boolean;
 }
 
-const DEFAULT_VALUE: AuthProps = {
-    loggedIn: false
+interface IAuthContext {
+  auth: IAuth;
+  setAuth: (state: IAuth) => void;
+}
+
+export const AuthContext = createContext<IAuthContext | null>(null);
+
+export const AuthProvider: React.FC<React.ReactNode> = ({ children }) => {
+  const [auth, setAuth] = useState({ token: "", getAuth: false });
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ auth, setAuth }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
-
-export const AuthContext = createContext(DEFAULT_VALUE);
-
-const AuthProvider = (props: any) => {
-    const [loggedIn, setLoggedIn] = useState<boolean>(false);
-
-    useEffect(() => {
-        // saved login state from localStorage / AsyncStorage
-    }, []);
-
-    const login = () => {
-        setLoggedIn(true);
-    };
-
-    const logout = () => {
-        setLoggedIn(false);
-    };
-
-    const authContextValue = {
-        login,
-        loggedIn: Boolean,
-        logout
-    };
-
-    return <AuthContext.Provider value={authContextValue} {...props} />;
-};
-
-const useAuth = () => useContext(AuthContext);
-
-export { AuthProvider, useAuth };

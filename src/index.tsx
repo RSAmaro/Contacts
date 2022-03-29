@@ -3,37 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter,  Routes,  Route} from "react-router-dom";
-import Contacts from './pages/Contacts';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from './components/Navbar';
-import EditContact from './pages/EditContact';
 import '@fontsource/roboto/400.css';
-import CreateContact from './pages/CreateContact';
-import DeleteContact from './pages/DeleteContact';
-import ContactsType from './pages/ContactsType';
-import CreateType from './pages/CreateType';
-import EditType from './pages/EditType';
-import Register from './pages/Register';
-import Login from './pages/Login';
+import { AuthProvider } from './context/AuthContext';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="Contacts" element={<Contacts />} />
-        <Route path="Contacts/Create" element={<CreateContact />} />
-        <Route path="Contacts/Edit/:id" element={<EditContact />} />
-        <Route path="Contacts/Delete/:id" element={<DeleteContact />} />
-        <Route path="ContactsType" element={<ContactsType />} />
-        <Route path="ContactsType/Create" element={<CreateType />} />
-        <Route path="ContactsType/Edit/:id" element={<EditType />} />
-        <Route path="Register" element={<Register />} />
-        <Route path="Login" element={<Login />} />
-      </Routes>
-    </React.StrictMode>
-  </BrowserRouter>,
+  <React.StrictMode>
+    <BrowserRouter>
+      <AuthProvider>
+        <Navbar />
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
+
   document.getElementById('root')
 );
 

@@ -1,11 +1,24 @@
+import { useContext } from 'react';
 import './App.css';
-import { useAuth } from './context/AuthContext';
+import { AuthContext } from './context/AuthContext';
 import { AuthenticatedRoutes, UnauthenticatedRoutes } from './routes/Routes';
 
 function App() {
-  return(
-    <></>
-  )
+  const value = useContext(AuthContext);
+  const auth = value?.auth;
+
+  console.log(auth?.getAuth)
+
+  let routes = (
+    <AuthenticatedRoutes/>
+  );
+
+  if (auth?.getAuth) {
+    routes = (
+      <UnauthenticatedRoutes/>
+    );
+  }
+  return <div className="App">{routes}</div>;
 }
 
 export default App;

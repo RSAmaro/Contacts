@@ -1,15 +1,18 @@
 import { Box, Button, Container, CssBaseline, Grid, Link, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Api } from "../services/Axios";
 import { LoginDTO } from "../models/Login";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
   const db = new Api();
   const [data, setData] = useState<LoginDTO>(new LoginDTO());
 
+  const value = useContext(AuthContext);
+  
   async function loginUser(user: LoginDTO) {
     var response = await db.loginUser(user);
     if (response == null) {
@@ -28,6 +31,12 @@ export default function Login() {
       });
 
     loginUser(data);
+    
+    value?.setAuth({
+      token: "TESTE",
+      getAuth: true
+    });
+
   };
 
   return (
