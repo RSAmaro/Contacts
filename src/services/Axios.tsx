@@ -1,12 +1,12 @@
 import axios, { Axios } from 'axios';
 import { ContactDTO } from '../models/ContactDTO';
 import { ContactTypeDTO } from '../models/ContactTypeDto';
-import { MessageHelper } from '../classes/MessageHelper';
+import { MessageHelper, MessagingHelperObj } from '../classes/MessageHelper';
 import { Contact } from '../interfaces/Contact';
 import { ContactType } from '../interfaces/ContactType';
-import { RegisterDTO } from '../models/Register';
 import { LoginDTO } from '../models/Login';
-import { TokenDTO } from '../models/TokenDTO';
+import { AuthDTO } from '../models/AuthDTO';
+import { APIService } from './Api';
 
 export class Api extends Axios {
 
@@ -26,7 +26,15 @@ export class Api extends Axios {
                 sort: sort,
                 qry: q,
                 qryParam: params
-            })
+            },{
+                headers:{
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "Authorization": "Bearer " + APIService.GetToken()
+                }
+            }
+            )
             this.count = response.data.totalCount;
             return response.data.results;
         } catch (error) {
@@ -145,36 +153,36 @@ export class Api extends Axios {
         }
     }
 
-    async createUser(user: RegisterDTO): Promise<TokenDTO> {
-        try {
-            const response = await axios.post('User/Create', {
-                email: user.email,
-                password: user.password
-            })
-
-            localStorage.setItem("token", response.data.token);
-            localStorage.setItem("expiration", response.data.expiration);
-            return response.data;
-        } catch (error) {
-            const result = new TokenDTO();
-            return result;
+    async loginUser(auth: LoginDTO): Promise<MessagingHelperObj<AuthDTO | null>>{
+        try{
+            var response = await axios.post(`Auth/login`, {...auth},{
+                withCredentials: true
+            });
+            return response.data
+        }
+        catch(error){
+            return new MessagingHelperObj<AuthDTO | null>(false, "Erro ao fazer login", null);
         }
     }
 
-    async loginUser(user: LoginDTO): Promise<MessageHelper> {
-        try {
-            const response = await axios.post('User/Login', {
-                email: user.email,
-                password: user.password
-            })
-
-            localStorage.setItem("token", response.data.obj.token);
-            localStorage.setItem("expiration", response.data.obj.expiration);
+    async createUser(register: AuthDTO): Promise<MessagingHelperObj<AuthDTO | null>>{
+        try{
+            var response = await axios.post(`Auth/register`, {...register});
             return response.data;
+        }catch(error){
+            return new MessagingHelperObj<AuthDTO| null>(false, "Erro ao criar a conta", null)
+        }
+    }
+
+    async getUser(): Promise<MessagingHelperObj<AuthDTO | null>> {
+        try {
+            var response = await axios.get(`User/Login`, {
+                withCredentials: true
+            });
+            return response.data;
+
         } catch (error) {
-            const result = new MessageHelper();
-            result.message = "Erro, certifique-se que todos os campos estão preenchidos!";
-            return result;
+            return new MessagingHelperObj<AuthDTO | null>(false, "Error finding user!", null);
         }
     }
 }

@@ -1,30 +1,35 @@
 import { Box, Button, Container, CssBaseline, Grid, Link, TextField, Typography } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Api } from "../services/Axios";
 import { LoginDTO } from "../models/Login";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
+import { AuthService } from "../services/Auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const db = new Api();
   const [data, setData] = useState<LoginDTO>(new LoginDTO());
-
-  const auth = useContext(AuthContext);
+  const navigate = useNavigate();
+  const service: AuthService = new AuthService();
+  const { setCurrentUser } = useAuth();
   
   async function loginUser(user: LoginDTO) {
-    var response = await db.loginUser(user);
+    const login: LoginDTO = {
+      email: user.email,
+      password: user.password
+  }
+
+  var response = await service.Login(login);
+
     if (response == null  || response.success === false) {
       return toast.error("Incorrect Login!", {
         theme: "colored"
       });
     }
 
-    auth?.setAuth({
-      token: "TESTE",
-      getAuth: true
-    });
+    setCurrentUser(response.obj);
+    navigate("/");
 
     //window.location.href = "/";
   }

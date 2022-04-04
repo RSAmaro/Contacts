@@ -1,7 +1,5 @@
-import { useContext } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { AuthContext } from './context/AuthContext';
 import Contacts from "./pages/Contacts";
 import EditContact from './pages/EditContact';
 import CreateContact from './pages/CreateContact';
@@ -11,24 +9,25 @@ import CreateType from './pages/CreateType';
 import EditType from './pages/EditType';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import { useAuth } from './context/AuthContext';
+import Home from './pages/Home';
 
 function App() {
-  const value = useContext(AuthContext);
-  const auth = value?.auth;
 
-  console.log(auth?.getAuth)
-
+  const { isUserLoggedIn } = useAuth();
+  
   let routes = (
     <Routes>
-      <Route path="Contacts" element={auth?.getAuth ? <Contacts /> : <Navigate replace to="/Login" />} />
-      <Route path="Contacts/Create" element={auth?.getAuth ? <CreateContact /> : <Navigate replace to="/Login" />} />
-      <Route path="Contacts/Edit/:id" element={auth?.getAuth ? <EditContact /> : <Navigate replace to="/Login" />} />
-      <Route path="Contacts/Delete/:id" element={auth?.getAuth ? <DeleteContact /> : <Navigate replace to="/Login" />} />
-      <Route path="ContactsType" element={auth?.getAuth ? <ContactsType /> : <Navigate replace to="/Login" />} />
-      <Route path="ContactsType/Create" element={auth?.getAuth ? <CreateType /> : <Navigate replace to="/Login" />} />
-      <Route path="ContactsType/Edit/:id" element={auth?.getAuth ? <EditType /> : <Navigate replace to="/Login" />} />
-      <Route path="Register" element={<Register />} />
-      <Route path="Login" element={<Login />} />
+      <Route path="Contacts" element={isUserLoggedIn ? <Contacts /> : <Navigate replace to="/Login" />} />
+      <Route path="Contacts/Create" element={isUserLoggedIn ? <CreateContact /> : <Navigate replace to="/Login" />} />
+      <Route path="Contacts/Edit/:id" element={isUserLoggedIn ? <EditContact /> : <Navigate replace to="/Login" />} />
+      <Route path="Contacts/Delete/:id" element={isUserLoggedIn ? <DeleteContact /> : <Navigate replace to="/Login" />} />
+      <Route path="ContactsType" element={isUserLoggedIn ? <ContactsType /> : <Navigate replace to="/Login" />} />
+      <Route path="ContactsType/Create" element={isUserLoggedIn ? <CreateType /> : <Navigate replace to="/Login" />} />
+      <Route path="ContactsType/Edit/:id" element={isUserLoggedIn ? <EditType /> : <Navigate replace to="/Login" />} />
+      <Route path="Register" element={!isUserLoggedIn ? <Register /> : <Navigate replace to="/" />} />
+      <Route path="Login" element={!isUserLoggedIn ? <Login /> : <Navigate replace to="/" /> }/>
+      <Route path="/" element={<Home/>} />
     </Routes>
   );
 
