@@ -12,7 +12,7 @@ export class AuthService{
             return response.data
         }
         catch(error){
-            return new MessagingHelperObj<AuthDTO | null>(false, "Erro ao fazer login", null);
+            return new MessagingHelperObj<AuthDTO | null>(false, "Couldn't connect to the API!", null);
         }
     }
 
@@ -21,7 +21,7 @@ export class AuthService{
             var response = await APIService.Axios().post(`${APIService.GetURL()}/auth/register`, {...register});
             return response.data;
         }catch(error){
-            return new MessagingHelperObj<AuthDTO| null>(false, "Erro ao criar a conta", null)
+            return new MessagingHelperObj<AuthDTO| null>(false, "Couldn't connect to the API!", null)
         }
     }
 
@@ -33,7 +33,7 @@ export class AuthService{
             return response.data;
 
         }catch(error){
-            return new MessagingHelperObj<AuthDTO | null>(false, "Erro a buscar o user", null);
+            return new MessagingHelperObj<AuthDTO | null>(false, "Couldn't connect to the API!", null);
         }
     }
 
@@ -44,7 +44,7 @@ export class AuthService{
             });
             return response.data;
         }catch(error){
-            return new MessagingHelperObj<any>(false, "Erro ao fazer logout", null);
+            return new MessagingHelperObj<any>(false, "Couldn't connect to the API!", null);
         }
     }
 

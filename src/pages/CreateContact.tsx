@@ -50,7 +50,7 @@ export default function CreateContact() {
                 pauseOnHover
             />
 
-            <Container maxWidth="sm" component={Paper} sx={{ marginTop: 4, padding: 4 }}>
+            <Container maxWidth="sm" component={Paper} sx={{ marginTop: 4, padding: 4, textAlign: 'left' }}>
                 <Stack spacing={4}>
                     <Typography variant="h4" color="initial">Create Contact</Typography>
 
@@ -72,7 +72,7 @@ export default function CreateContact() {
                 </Stack>
 
                 <Stack spacing={0} sx={{ marginTop: 2 }}>
-                    <InputLabel id="type-label">Type</InputLabel>
+                    <InputLabel id="type-label" sx={{textAlign: 'left'}}>Type</InputLabel>
                     <Select labelId="type-label" native={true} onChange={handleSelect} defaultValue="">
                         <option value="" disabled hidden>Choose Contact Type</option>
                         {types &&

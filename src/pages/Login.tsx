@@ -21,9 +21,9 @@ export default function Login() {
   }
 
   var response = await service.Login(login);
-
+  console.log(response);
     if (response == null  || response.success === false) {
-      return toast.error("Incorrect Login!", {
+      return toast.error(response.message, {
         theme: "colored"
       });
     }
@@ -104,7 +104,7 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="Register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

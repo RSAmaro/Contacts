@@ -5,24 +5,26 @@ import { RegisterCreateDTO, RegisterDTO } from "../models/Register";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Api } from "../services/Axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
     const db = new Api();
+    const navigate = useNavigate();
     const [data, setData] = useState<RegisterCreateDTO>(new RegisterCreateDTO());
 
     async function createUser(user: RegisterDTO) {
         var response = await db.createUser(user);
-        if (response == null) {
-            return toast.error("Incorrect values!", {
+        if (response == null || response.success === false) {
+            return toast.error(response.message, {
                 theme: "colored"
             });
         }
-        window.location.href = "/Login";
+        navigate("../ConfirmEmail");
     }
-
+    
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if(data.email === "" || data.password === "" || data.confirmPassword === "")
+        if (data.email === "" || data.password === "" || data.confirmPassword === "")
             return toast.error("All rows must have a value! ", {
                 theme: "colored"
             });
@@ -33,13 +35,11 @@ export default function Register() {
             });
 
         const formValues = new RegisterDTO();
+        formValues.username = data.username;
         formValues.email = data.email;
         formValues.password = data.password;
 
         createUser(formValues);
-
-        console.log(formValues);
-
     };
 
     return (
@@ -71,13 +71,25 @@ export default function Register() {
                             margin="normal"
                             required
                             fullWidth
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoComplete="username"
+                            onChange={(e) => setData({ ...data, username: e.target.value })}
+                            value={data.username}
+                            autoFocus
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
                             id="email"
                             label="Email Address"
                             name="email"
+                            type="email"
                             autoComplete="email"
                             onChange={(e) => setData({ ...data, email: e.target.value })}
                             value={data.email}
-                            autoFocus
                         />
                         <TextField
                             margin="normal"
@@ -113,7 +125,7 @@ export default function Register() {
                         </Button>
                         <Grid container>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="Login" variant="body2">
                                     {"Already have an account? Sign in here!"}
                                 </Link>
                             </Grid>

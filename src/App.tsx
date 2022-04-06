@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import { useAuth } from './context/AuthContext';
 import Home from './pages/Home';
+import ConfirmEmail from './pages/ConfirmEmail';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
       <Route path="ContactsType/Edit/:id" element={isUserLoggedIn ? <EditType /> : <Navigate replace to="/Login" />} />
       <Route path="Register" element={!isUserLoggedIn ? <Register /> : <Navigate replace to="/" />} />
       <Route path="Login" element={!isUserLoggedIn ? <Login /> : <Navigate replace to="/" /> }/>
+      <Route path="ConfirmEmail" element={<ConfirmEmail/>} />
       <Route path="/" element={<Home/>} />
     </Routes>
   );

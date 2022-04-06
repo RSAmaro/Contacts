@@ -58,7 +58,7 @@ export default function EditContact() {
                 pauseOnHover
             />
 
-            <Container maxWidth="sm" component={Paper} sx={{ marginTop: 4, padding: 4 }}>
+            <Container maxWidth="sm" component={Paper} sx={{ marginTop: 4, padding: 4, textAlign: 'left' }}>
                 <Stack spacing={4}>
                     <Typography variant="h4" color="initial">Editing Contact #{data.id}</Typography>
 

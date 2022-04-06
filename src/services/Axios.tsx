@@ -14,7 +14,7 @@ export class Api extends Axios {
     
     constructor() {
         super()
-        axios.defaults.baseURL = 'https://localhost:7081/api/';
+        axios.defaults.baseURL = `${APIService.GetURL()}`;
     }
 
     async getRows(page: number, items: number, sort: string, q: string, params: string[]): Promise<Contact[]> {
