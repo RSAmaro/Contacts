@@ -1,4 +1,4 @@
-import { Button, Container, Input, Stack, Typography } from "@mui/material";
+import { Button, Container, Divider, Input, Paper, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -55,14 +55,17 @@ export default function ResetPassword() {
                 draggable
                 pauseOnHover
             />
-            <Container>
-                <Typography variant="h4" color="initial">Reset Password</Typography>
-                <Typography variant="h6" color="initial">Please insert your new password</Typography>
-                <Stack spacing={4}>
-                    <Input type="password" value={password} onChange={(element) => { setPassword(element.target.value) }} placeholder="Password"></Input>
-                    <Input type="password" value={password2} onChange={(element) => { setPassword2(element.target.value) }} placeholder="Confirm Password"></Input>
-                    <Button onClick={() => { resetPassword() }}>Send Email</Button>
-                </Stack>
+            <Container component="main" maxWidth="sm">
+                <Paper sx={{ marginTop: 8, padding: 6 }}>
+                    <Typography variant="h4" color="initial">Reset Password</Typography>
+                    <Divider />
+                    <Stack spacing={4}>
+                        <Typography color="initial">Please insert your new password</Typography>
+                        <Input type="password" value={password} onChange={(element) => { setPassword(element.target.value) }} placeholder="Password"></Input>
+                        <Input type="password" value={password2} onChange={(element) => { setPassword2(element.target.value) }} placeholder="Confirm Password"></Input>
+                        <Button variant="contained" onClick={() => { resetPassword() }}>Change Password</Button>
+                    </Stack>
+                </Paper>
             </Container>
 
         </>

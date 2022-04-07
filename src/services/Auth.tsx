@@ -1,5 +1,6 @@
 import { MessagingHelperObj } from "../classes/MessageHelper";
 import { AuthDTO } from "../models/AuthDTO";
+import { ConfirmDTO } from "../models/ConfirmDTO";
 import { LoginDTO } from "../models/Login";
 import { APIService } from "./Api";
 
@@ -48,4 +49,14 @@ export class AuthService{
         }
     }
 
+    async ConfirmEmail(confirm: ConfirmDTO) : Promise<MessagingHelperObj<null>>{
+        try{
+            var result = await APIService.Axios().post(`${APIService.GetURL()}/Auth/ConfirmEmail`,{...confirm},{
+                withCredentials: true
+            });
+            return result.data;
+        }catch(error){
+            return new MessagingHelperObj(false, "Error connecting to API", null);
+        }
+    }
 }

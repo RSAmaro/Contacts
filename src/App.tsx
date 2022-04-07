@@ -14,6 +14,7 @@ import Home from './pages/Home';
 import ConfirmEmail from './pages/ConfirmEmail';
 import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
+import ConfirmEmailToken from './pages/ConfirmEmailToken';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
       <Route path="Register" element={!isUserLoggedIn ? <Register /> : <Navigate replace to="/" />} />
       <Route path="Login" element={!isUserLoggedIn ? <Login /> : <Navigate replace to="/" /> }/>
       <Route path="ConfirmEmail" element={<ConfirmEmail/>} />
+      <Route path="ConfirmEmailToken" element={!isUserLoggedIn ? <ConfirmEmailToken /> : <Navigate replace to="/" />} />
       <Route path="ResetPassword" element={!isUserLoggedIn ? <ResetPassword /> : <Navigate replace to="/" />} />
       <Route path="ForgotPassword" element={!isUserLoggedIn ? <ForgotPassword /> : <Navigate replace to="/" />} />
       <Route path="/" element={<Home/>} />

@@ -1,4 +1,4 @@
-import { Box, Button, Container, CssBaseline, Grid, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Link, Paper, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -57,13 +57,12 @@ export default function Login() {
         draggable
         pauseOnHover
       />
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      <Container component="main" maxWidth="sm">
+        <Paper sx={{ marginTop: 8, padding: 6 }}>
         <Box sx={{
-          marginTop: 8,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'left',
         }}>
           <Typography component="h1" variant="h5">
             Login
@@ -103,14 +102,22 @@ export default function Login() {
               Login
             </Button>
             <Grid container>
+              <Stack spacing={2}>
               <Grid item>
                 <Link href="Register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
+              <Grid item sx={{ textAlign: 'left'}}>
+                <Link href="ForgotPassword" variant="body2">
+                  {"Forgot Password?"}
+                </Link>
+              </Grid>
+              </Stack>
             </Grid>
           </Box>
         </Box>
+        </Paper>
       </Container>
 
     </>
